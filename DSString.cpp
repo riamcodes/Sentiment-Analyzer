@@ -37,7 +37,11 @@ size_t DSString ::length () const{
 }
 
 // returns a reference to the character at the given index
-char &DSString:: operator[](size_t index){}
+char &DSString:: operator[](size_t index){
+    if (index < length()){
+        return data[index];
+    }
+}
 
 // Overloaded operator+ which appends the string in the argument to this string
 
