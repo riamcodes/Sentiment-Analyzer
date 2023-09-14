@@ -24,12 +24,12 @@ public:
      * To help you get started, you can implement the following:
      **/
 
-    DSString();
+    DSString(); // blank constructor 
     DSString(const char *); // constructor that converts a cstring
     // you can also provide  DSString(const string &); for std::string
 
     // Rule of three is needed if dynamic memory allocation is used
-    DSString(const DSString &);            // copy constructor
+     DSString(const DSString &);            // copy constructor
     ~DSString();                           // destructor
     DSString &operator=(const DSString &); // assignment operator
 

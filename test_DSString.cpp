@@ -13,7 +13,7 @@ int main()
     myString = "Good bye!";
     std::cout << myString << "\n";
 
-    std::cout << "substr: " << myString.substring(5, 3) << "\n";
+ /* std::cout << "substr: " << myString.substring(5, 3) << "\n";
 
     DSString a = "test";
     DSString b = a;
@@ -47,6 +47,6 @@ int main()
     // now we can do more efficient search using STL binary search
     std::cout << "found ddd: " << binary_search(strings.begin(), strings.end(), DSString("ddd")) << "\n";
     std::cout << "found zzz: " << binary_search(strings.begin(), strings.end(), DSString("zzz")) << "\n";
-
+*/
     return 0;
 }
