@@ -49,13 +49,28 @@ DSString::DSString (){
  // }
  DSString::DSString(const DSString &copy)
  {
- }
+    data = new char[copy.length()+1];
+   
+        //work on this next 
+    len = copy.length();
+     for (int i = 0; i < copy.length(); i++ ){
+data[i] = copy.data[i];
+}
+ data[len] = '\0';
+
+}
 
 //assignment operator 
  DSString &DSString::operator=(const DSString &newStr){
-    data = new char[newStr.length()+1];
-
+    delete[] data;
     len = newStr.length();
+    data = new char[len+1];
+    for (size_t i = 0; i < len; i++){
+*(data+i)=*(newStr.data + i );
+//???? .data what does this mean
+    }
+
+
  }
 
  // destructor
@@ -80,8 +95,8 @@ char& DSString::operator[](size_t index){
 
 
 //overloaded operator
-DSString DSString::operator+(const DSString &) const{
-
+DSString DSString::operator+(const DSString &adding) const{
+//WORK ON THIS ONE NEXT
 
 }
 
@@ -94,7 +109,23 @@ DSString DSString::operator+(const DSString &) const{
      * Standard relational operators to compare and order your strings.
      * Feel free to add additional.
      **/
-    bool DSString::operator==(const DSString &) const{}
+    bool DSString::operator==(const DSString &checkEqual) const{
+
+        char* newCh = checkEqual.c_str();
+    // Compare each character in the strings
+    for(size_t i = 0; i < len; i++){
+        if ((data[i]) != newCh[i])
+        return false;
+    }
+
+  
+    // If the lengths are the same and all characters match, the strings are equal
+ return true;
+    
+}
+
+
+
     bool DSString::operator<(const DSString &) const{}
 
 
@@ -108,7 +139,25 @@ DSString DSString::operator+(const DSString &) const{
      *    the substring
      * @return a DSString object containing the requested substring
      **/
-    DSString DSString::substring(size_t start, size_t numChars) const{}
+    DSString DSString::substring(size_t start, size_t numChars) const{
+        DSString substr;
+        substr.len = numChars + 1;
+for (size_t i = start; i < start+numChars; i++){
+          substr.data[i-start] = data[i];
+        }
+        substr.data[numChars] = '\0';
+        return substr;
+        
+       /* char* newStr = new char[numChars+1];//new character array 
+        for (int i = start; i < start+numChars; i++){
+            newStr[i-start] =  data[i];
+        }
+        DSString ret(newStr);
+        return ret;
+*/
+//noun classes verbs = functions  word is a ds string 5 10 different classes tokeniser needs to cut sttings int o pieces 
+
+    }
 
 
  /**

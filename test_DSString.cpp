@@ -13,13 +13,15 @@ int main()
     myString = "Good bye!";
     std::cout << myString << "\n";
 
- /* std::cout << "substr: " << myString.substring(5, 3) << "\n";
+ std::cout << "substr: " << myString.substring(5, 3) << "\n";
 
     DSString a = "test";
-    DSString b = a;
+   DSString b = a;
 
     std::cout << std::boolalpha;
     std::cout << (a == b) << "\n";
+  
+
 
     // use initialization list
     std::vector<DSString> strings = {
@@ -28,7 +30,7 @@ int main()
         DSString("ddd"),
         DSString("eee"),
         DSString("ccc")};
-
+/*
     // find strings
     for (const auto &s : strings)
         std::cout
