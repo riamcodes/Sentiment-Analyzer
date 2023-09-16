@@ -30,7 +30,7 @@ int main()
         DSString("ddd"),
         DSString("eee"),
         DSString("ccc")};
-/*
+
     // find strings
     for (const auto &s : strings)
         std::cout
@@ -49,6 +49,6 @@ int main()
     // now we can do more efficient search using STL binary search
     std::cout << "found ddd: " << binary_search(strings.begin(), strings.end(), DSString("ddd")) << "\n";
     std::cout << "found zzz: " << binary_search(strings.begin(), strings.end(), DSString("zzz")) << "\n";
-*/
+
     return 0;
 }

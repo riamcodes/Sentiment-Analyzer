@@ -43,10 +43,8 @@ DSString::DSString (){
  } 
 
 // Rule of three is needed if dynamic memory allocation is used
+
 // copy constructor
-   //DSString::DSString(const DSString &copy){
-        // data = new char(*copy.data);// use the previous function as a template 
- // }
  DSString::DSString(const DSString &copy)
  {
     data = new char[copy.length()+1];
@@ -97,6 +95,8 @@ char& DSString::operator[](size_t index){
 //overloaded operator
 DSString DSString::operator+(const DSString &adding) const{
 //WORK ON THIS ONE NEXT
+//size_t size1 = len + adding.len; 
+//char* char1 = new
 
 }
 
@@ -110,23 +110,32 @@ DSString DSString::operator+(const DSString &adding) const{
      * Feel free to add additional.
      **/
     bool DSString::operator==(const DSString &checkEqual) const{
-
+         bool a = true;
         char* newCh = checkEqual.c_str();
     // Compare each character in the strings
     for(size_t i = 0; i < len; i++){
         if ((data[i]) != newCh[i])
-        return false;
+        a = false;
     }
-
-  
     // If the lengths are the same and all characters match, the strings are equal
- return true;
+    return a;
     
 }
 
 
 
-    bool DSString::operator<(const DSString &) const{}
+    bool DSString::operator<(const DSString &checkLess) const{
+     bool a = false;
+            char* newCh = checkLess.c_str();
+    // Compare each character in the strings
+    for(size_t i = 0; i < len; i++){
+        if ((data[i]) < newCh[i])
+        a = true;
+        break;
+    }
+
+   return a;
+    }
 
 
     
@@ -165,7 +174,16 @@ for (size_t i = start; i < start+numChars; i++){
      *
      * @return DSString
      */
-    DSString DSString::toLower() const{}// look at the ASCII table for this!
+    DSString DSString::toLower() const{
+        int lowAsciiVal = 0;
+        for(size_t i = 0; i < len; i++){
+            if((data[i] < 91)&&(data[i]>64)){
+                lowAsciiVal = toascii(data[i])+32;
+                data[i] = char(lowAsciiVal);
+            }
+        }
+        return data;
+    }// look at the ASCII table for this!
  
     /**
      * Overloaded stream insertion operator to print the contents of this
@@ -187,7 +205,7 @@ for (size_t i = start; i < start+numChars; i++){
 std::ostream &operator<<(std::ostream &output, const DSString &str){
     char* c = str.c_str();
     // std::cout<<c[0];
-    for(int i = 0; i < str.length();i++){
+    for(size_t i = 0; i < str.length();i++){
         output.put(c[i]);
 
     }
