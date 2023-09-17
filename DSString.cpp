@@ -95,10 +95,35 @@ char& DSString::operator[](size_t index){
 //overloaded operator
 DSString DSString::operator+(const DSString &adding) const{
 //WORK ON THIS ONE NEXT
-//size_t size1 = len + adding.len; 
-//char* char1 = new
+ /*fullSize = len + adding.len; 
+char* addedChar = new char[fullSize];
+for (size_t i = 0; i < len-1; i++){
+  addedChar[i] = data[i];
+}
+for (size_t i = (len - 1); i < ((len-1) + adding.len);i++){
+    int x = 0;
+    addedChar[i] = adding.data[x];
+    x++;
+}
+return addedChar;
+*/  
+  DSString fullSize;
+        fullSize.len = len + adding.len + 1;
+            int x = 0;
+for (size_t i = 0; i < len; i++){
+          fullSize.data[i] = data[i];
+        }
+        for (size_t i = len; i < ((len - 0) + adding.len); i++){
+            fullSize[i] = adding.data[x];
+            x++;
+        }
+        fullSize.data[fullSize.len] = '\0';
+        return fullSize;
+      
 
 }
+
+
 
 // Overloaded operator+ which appends the string in the argument to this string
 
@@ -109,6 +134,7 @@ DSString DSString::operator+(const DSString &adding) const{
      * Standard relational operators to compare and order your strings.
      * Feel free to add additional.
      **/
+    
     bool DSString::operator==(const DSString &checkEqual) const{
          bool a = true;
         char* newCh = checkEqual.c_str();

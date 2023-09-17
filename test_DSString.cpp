@@ -36,6 +36,17 @@ int main()
         std::cout
             << s << "\n";
 
+     /*
+       test to see if the + operator works
+       a = "hello";
+       b = "there";
+       std:: cout << "hi \n" ;
+       std::cout << a << " \n"; 
+       std::cout << b << " \n"; 
+       std::cout << (a + b) << " \n"; 
+       std :: cout << "hi";
+     */
+
     std::cout << "found ddd: " << (std::find(strings.begin(), strings.end(), DSString("ddd")) != strings.end()) << "\n";
     std::cout << "found zzz: " << (std::find(strings.begin(), strings.end(), DSString("zzz")) != strings.end()) << "\n";
 
@@ -49,6 +60,6 @@ int main()
     // now we can do more efficient search using STL binary search
     std::cout << "found ddd: " << binary_search(strings.begin(), strings.end(), DSString("ddd")) << "\n";
     std::cout << "found zzz: " << binary_search(strings.begin(), strings.end(), DSString("zzz")) << "\n";
-
-    return 0;
+   
+    return 0; 
 }
