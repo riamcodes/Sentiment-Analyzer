@@ -96,6 +96,8 @@ public:
      
      std::vector<DSString> tokenizeDSString();
 
+     bool getline(std::istream &); // while (line.getline(file))
+
 };
 
 #endif

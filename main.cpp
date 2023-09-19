@@ -1,9 +1,10 @@
 #include <iostream>
-
+#include "SentimentAnalyzer.h"
 
 int main(int argc, char** argv)
 {  
-    std::cout << "I will be a sentiment analyzer!" << std::endl;
+    SentimentAnalyzer sa;
+    sa.train();
 
     return 0;
 }
