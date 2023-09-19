@@ -21,7 +21,19 @@ int main()
     std::cout << std::boolalpha;
     std::cout << (a == b) << "\n";
   
+/////////////////test
+DSString tester = "this is a test with a string of words!";
+ std::vector<DSString> words = tester.tokenizeDSString();
 
+for(int i = 0; i < words.size(); i++){
+ std:: cout << words.at(i) << "\n";
+}
+
+
+
+
+
+////////end test 
 
     // use initialization list
     std::vector<DSString> strings = {
@@ -61,5 +73,11 @@ int main()
     std::cout << "found ddd: " << binary_search(strings.begin(), strings.end(), DSString("ddd")) << "\n";
     std::cout << "found zzz: " << binary_search(strings.begin(), strings.end(), DSString("zzz")) << "\n";
    
+
+
+
+   /////////// put the table in token highkey confused 
+
+
     return 0; 
 }

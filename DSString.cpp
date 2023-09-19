@@ -241,22 +241,35 @@ std::ostream &operator<<(std::ostream &output, const DSString &str){
 
     // Implementation of the tokenize function
     
- /*std::vector<DSString> tokenizeDSString(const DSString &phrase) {
+ std::vector<DSString> DSString::tokenizeDSString() {
     //char* currentChar = phrase.c_str();
     std::vector<DSString> words;
     size_t counter = 0;
 
     DSString currentWord;
-    for (size_t i = 0; i < phrase.length(); ++i){
-      char currentChar = phrase[i];
-      if (currentChar = ' '){
-        currentWord = phrase.substr(counter,i-counter);
+  
+   for (size_t i = 0; i < length()+1; ++i){
+      char currentChar = data[i];
+        /*
+     if ((currentChar != ' ') && (isalpha(currentChar)==false)){
+       DSString special = "" + currentChar; 
+        words.push_back(special);
+        i++;
+     }
+*/
+      if ((currentChar == ' ') || (currentChar == '\0')){
+       // if(isalpha(data[i])){
+        currentWord = substring(counter,i-counter);
         words.push_back(currentWord);
-        counter = i;
+        counter = i+1;
       }
+      //words.push_back(substring(counter,))
     }
-
+return words; 
   }
 
-  */
+
+
+
+  
 

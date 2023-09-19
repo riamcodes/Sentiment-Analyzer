@@ -94,7 +94,7 @@ public:
 
      //std::vector<DSString> tokenize(DSString& ) const;
      
-     
+     std::vector<DSString> tokenizeDSString();
 
 };
 
