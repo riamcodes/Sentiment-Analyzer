@@ -10,6 +10,7 @@
 using namespace std;
 
 void SentimentAnalyzer::train() {
+    //CHANGE THE WAY THE FILE IS READ IN BEFORE SUBMITTING
     std::ifstream file("/users7/cse/rmukherji/assignment-2-don-t-be-sentimental-riamuk101/data/train_dataset_20k.csv");
     if (!file.good())
     {
@@ -45,9 +46,16 @@ void SentimentAnalyzer::train() {
                 ++counter;
                 if(senti == true) {
                     dictionary.push_back(Word(curTweetWord, 1, 0));
+                   // if (curTweetWord.substring(0,1) == "@"){
+                    //    dictionary.pop_back();
+                   // }
+
                 }
                 else {
                     dictionary.push_back(Word(curTweetWord, 0, 1));
+                   // if (curTweetWord.substring(0,1) == "@"){
+                   //     dictionary.pop_back();
+                   // }
                 }
             }
         }
