@@ -31,9 +31,9 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 add_compile_options(-Wall -Wextra -pedantic)
 
 # Create the executable (s)
-add_executable(sentiment main.cpp DSString.cpp SentimentAnalyzer.cpp Tweet.cpp)
+add_executable(sentiment main.cpp DSString.cpp SentimentAnalyzer.cpp SentimentAnalyzer.h Tweet.h Tweet.cpp Word.h )
 
-add_executable(test_DSString test_DSString.cpp DSString.cpp SentimentAnalyzer.cpp Tweet.cpp)
+add_executable(test_DSString test_DSString.cpp DSString.cpp DSString.h SentimentAnalyzer.h SentimentAnalyzer.cpp Tweet.cpp Tweet.h )
 
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 

@@ -71,6 +71,9 @@ DSString &DSString::operator=(const DSString &newStr)
         *(data + i) = *(newStr.data + i);
         //???? .data what does this mean
     }
+    data[len] = '\0';  // Add this line
+
+    return *this;
 }
 
 // destructor
@@ -91,6 +94,7 @@ char &DSString::operator[](size_t index)
     if (index < length())
     {
         return data[index];
+        throw std::out_of_range("Index out of bounds");
     }
 }
 
@@ -112,6 +116,7 @@ DSString DSString::operator+(const DSString &adding) const
    */
     DSString fullSize;
     fullSize.len = len + adding.len + 1;
+    //fullSize.data = new char[fullSize.len + 1]; // +1 for the null terminator
     int x = 0;
     for (size_t i = 0; i < len; i++)
     {
@@ -145,7 +150,7 @@ bool DSString::operator==(const DSString &checkEqual) const
     char *newCh = checkEqual.c_str();
 
     // Compare each character in the strings
-    for (size_t i = 0; i < len; i++)
+    for (size_t i = 0; i < len + 1; i++)
     {
         if ((data[i]) != newCh[i])
             a = false;
@@ -154,20 +159,46 @@ bool DSString::operator==(const DSString &checkEqual) const
     return a;
 }
 
+// bool DSString::operator<(const DSString &checkLess) const
+// {
+//     //std::cout << "Comparing " << data << " with " << checkLess << std::endl;
+//     bool a = false;
+//     char *newCh = checkLess.c_str();
+//     // Compare each character in the strings
+//     for (size_t i = 0; i < len + 1; i++)
+//     {
+//         if ((data[i]) < checkLess.data[i])
+//             a = true;
+//         break;
+//       // continue;
+    
+//     }
+
+//     //std::cout << "RESULT WAS: " << a << std::endl;
+//     return a;
+// }
+
+// CODE GENERATED ?????
+
+
 bool DSString::operator<(const DSString &checkLess) const
 {
-    bool a = false;
-    char *newCh = checkLess.c_str();
-    // Compare each character in the strings
-    for (size_t i = 0; i < len; i++)
+    // Make sure both strings are of the same length or find the minimum length
+    size_t minLen = std::min(len, checkLess.len); 
+
+    for (size_t i = 0; i < minLen; i++)
     {
-        if ((data[i]) < newCh[i])
-            a = true;
-        break;
+        if (data[i] < checkLess.data[i])
+            return true;
+        else if (data[i] > checkLess.data[i])
+            return false;
     }
 
-    return a;
+    // If you reach here, the strings are equal up to minLen.
+    // The shorter string is considered "smaller"
+    return len < checkLess.len;
 }
+
 
 /**
  * The substring method returns a new string object that contains a
@@ -250,7 +281,29 @@ std::ostream &operator<<(std::ostream &output, const DSString &str)
     return output << str.data;
 }
 
-// Implementation of the tokenize function
+// // Implementation of the tokenize function
+// std::vector<DSString> DSString::tokenizeDSString()
+// {
+//     std::vector<DSString> words;
+//     size_t counter = 0;
+
+//     for (size_t i = 0; i < length(); ++i)
+//     {
+//         char currentChar = data[i];
+//         bool isDelimiter = (currentChar == ' ' || currentChar == ',' || currentChar == ';' || currentChar == '.' || currentChar == ':' || currentChar == '!' || currentChar == '?');
+        
+//         if (isDelimiter || (i == length() - 1)) {
+//             if (i != counter || (i == length() - 1 && !isDelimiter)) {
+//                 // Edge case: if the last character is not a delimiter, include it in the last token
+//                 size_t end = isDelimiter ? i : i + 1;
+//                 DSString currentWord = substring(counter, end - counter);
+//                 words.push_back(currentWord);
+//             }
+//             counter = i + 1;
+//         }
+//     }
+//     return words;
+// }
 
 std::vector<DSString> DSString::tokenizeDSString()
 {
@@ -270,18 +323,23 @@ std::vector<DSString> DSString::tokenizeDSString()
             i++;
         }
         */
-        if (currentChar == ' ' || currentChar == ',' || currentChar == ';' || currentChar == '.' || currentChar == ':' || currentChar == '!' || currentChar == '?' || currentChar == '\0')
+        if (currentChar == ' ' || currentChar == ',' || currentChar == ';' || currentChar == '.' || currentChar == ':' || currentChar == '!' || currentChar == '?' || currentChar == '\0'
+        && i!= counter)
         {
             // if(isalpha(data[i])){
             currentWord = substring(counter, i - counter);
             words.push_back(currentWord);
             counter = i + 1;
         }
+        else if (currentChar == ' ' || currentChar == ',' || currentChar == ';' || currentChar == '.' || currentChar == ':' || currentChar == '!' || currentChar == '?' || currentChar == '\0'
+        && i!= counter){
+            counter++;
+        }
     }
     return words;
 }
 
-bool DSString::getline(std::istream &in)
+/*bool DSString::getline(std::istream &in)
 {
     // go until EOF or \n
     char *content = new char[10000];
@@ -306,3 +364,4 @@ bool DSString::getline(std::istream &in)
     this->data = content;
     return eof;
 }
+*/

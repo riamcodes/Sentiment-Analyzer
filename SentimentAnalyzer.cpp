@@ -6,67 +6,55 @@
 #include <vector>
 #include "DSString.h"
 #include "Word.h"
+#include <map>
 
-using namespace std;
+
+//using namespace std;
 
 void SentimentAnalyzer::train() {
     //CHANGE THE WAY THE FILE IS READ IN BEFORE SUBMITTING
-    std::ifstream file("/users7/cse/rmukherji/assignment-2-don-t-be-sentimental-riamuk101/data/train_dataset_20k.csv");
+    std::ifstream file("/users7/cse/rmukherji/assignment-2-don-t-be-sentimental-riamuk101/smallTrainingSet.csv");
     if (!file.good())
     {
         throw std::invalid_argument("file could not be opened");
     }
     
-    vector<Word> dictionary;
 
-    DSString curLine;
+    //DSString curLine;
+    char* buffer = new char[1000];
     size_t counter = 0;
-    while (curLine.getline(file)) {
-        bool senti = (curLine[0] == '4'); // true == good sentiment, false == bad sentiment
-        vector<DSString> words = curLine.tokenizeDSString();
+    file.ignore(1000,'\n');
+    while (file.getline(buffer, 1000, ',')) {
+        //stores the sentiment value 0 or 4 into a DSString
+     DSString sentiment(buffer);
+     file.ignore(1000,',');
+     file.ignore(1000,',');
+     file.ignore(1000,',');
+     file.ignore(1000,',');
 
-        // read current sentiment of current tweet
-        // go through words of current tweet and update dictionary vector
+  file.getline(buffer, 10000, '\n');
+     DSString tweetDSString(buffer);
+     vector<DSString> words = tweetDSString.tokenizeDSString();
 
-        for (DSString& curTweetWord : words) {
-            bool found = false;
-            for (Word& curDictWord : dictionary) {
-                if(curDictWord.content == curTweetWord) {
-                    found = true;
-                    if(senti == true) {
-                        curDictWord.posCount++;
-                    }
-                    else {
-                        curDictWord.negCount++;
-                    }
-                    break;
-                }
-            }
-            if(found == false) {
-                ++counter;
-                if(senti == true) {
-                    dictionary.push_back(Word(curTweetWord, 1, 0));
-                   // if (curTweetWord.substring(0,1) == "@"){
-                    //    dictionary.pop_back();
-                   // }
+ for (DSString& curTweetWord : words) {
+     if (sentiment == "4"){
+        cout << curTweetWord << endl;
+        dictionary[curTweetWord].addData(1,0);
 
-                }
-                else {
-                    dictionary.push_back(Word(curTweetWord, 0, 1));
-                   // if (curTweetWord.substring(0,1) == "@"){
-                   //     dictionary.pop_back();
-                   // }
-                }
-            }
-        }
-
+     }
+     else if(sentiment == "0"){
+        cout << curTweetWord << endl;
+        dictionary[curTweetWord].addData(0,1);
+     }
+        
+        for (auto& curDictWord : dictionary) { 
+        cout << curDictWord.first << ' ' << curDictWord.second.posCount << ' ' << curDictWord.second.negCount << endl;
     }
 
-    // printing for debug purposes
-    for (Word cur: dictionary) {
-        cout << cur.content << ' ' << cur.posCount << ' ' << cur.negCount << endl;
-    }
+ }
+     }
+
 
     cout << counter << endl;
-    
+   delete[]  buffer;
 }
