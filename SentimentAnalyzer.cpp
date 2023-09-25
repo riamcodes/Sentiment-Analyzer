@@ -14,7 +14,7 @@
 void SentimentAnalyzer::train() {
 
     //CHANGE THE WAY THE FILE IS READ IN BEFORE SUBMITTING
-    std::ifstream file("/users7/cse/rmukherji/assignment-2-don-t-be-sentimental-riamuk101/smallTrainingSet.csv");
+    std::ifstream file("/users7/cse/rmukherji/assignment-2-don-t-be-sentimental-riamuk101/data/train_dataset_20k.csv");
     if (!file.good())
     {
         throw std::invalid_argument("file could not be opened");
@@ -67,130 +67,102 @@ void SentimentAnalyzer::train() {
     }
 }
 
-void SentimentAnalyzer::test(){
+void SentimentAnalyzer::test() {
 
-   std::ifstream file("/users7/cse/rmukherji/assignment-2-don-t-be-sentimental-riamuk101/smallTrainingSet.csv");
-    if (!file.good())
-    {
+    // Open the first file
+    std::ifstream file("/users7/cse/rmukherji/assignment-2-don-t-be-sentimental-riamuk101/data/FakeTestData.csv");
+    if (!file.good()) {
         throw std::invalid_argument("file could not be opened");
     }
-    
 
-    //DSString curLine;
-   
-    int idVectorCounter = 0;
-    int sentimentValue;
-    char* buffer = new char[1000];
-   // char* buffer2 = new char[1000];
+    char buffer[10000];  // Buffer to store each field
     double counter = 0;
-    
+    int idVectorCounter = 0;
     vector<DSString> guessedSentiments;
-   vector<DSString> ids ;
-    file.ignore(1000,'\n');
-    while (file.getline(buffer, 1000, ',')) {
-      //stores the sentiment value 0 or 4 into a DSString
-     //DSString sentiment(buffer);
-     //file.ignore(1000,',');
-     char id[500];
-     file.getline(id,500,',');
-     DSString idValue(id);  
-     ids.push_back(idValue);
-    // DSString a = DSString sentiment(buffer);
-     file.ignore(1000,',');
-     file.ignore(1000,',');
+    vector<DSString> ids;
 
-  file.getline(buffer, 10000, '\n');
-     DSString tweetDSString(buffer);
-     vector<DSString> words = tweetDSString.tokenizeDSString();
+    // Ignore header line
+    file.ignore(1000, '\n');
 
+    while (file.getline(buffer, 1000, ',')) {  // Reading ID
+        DSString idValue(buffer);
+        ids.push_back(idValue);
 
+        // Skipping Date, Query, User
+        file.ignore(1000, ',');  // Skip to next comma (Date)
+        file.ignore(1000, ',');  // Skip to next comma (Query)
+        file.ignore(1000, ',');  // Skip to next comma (User)
 
+        // Reading the tweet
+        file.getline(buffer, 1000, '\n');  // Read until newline or 10000 characters
+        DSString tweetDSString(buffer);
 
+               std::cout << "Analyzing tweet: " << tweetDSString << std::endl;  // Output the tweet being analyzed
+      
+        vector<DSString> words = tweetDSString.tokenizeDSString();
 
+        // ... Your existing code for analyzing the tweet
+        for (size_t i = 0; i < words.size(); i++) {
+            DSString lowerWord = (words.at(i).toLower());  // Convert word to lowercase
+    auto indWord = dictionary.find(lowerWord);  // Lookup the lowercase word in dictionary
 
-// index through the vector of words from an individual tweet and find the values of those words in my map
-     for (size_t i = 0; i < words.size();i++){
-      auto indWord = dictionary.find(words.at(i));
-    // get whether the value associated in the word is negative or positive and if it is positive add 1 to counter else subtract 1
-      // Check if the word was found in the dictionary
-    if (indWord != dictionary.end()) {
-        // The word was found, indWord->second is its value (sentiment score)
-        std::cout << indWord->first << " ";
-        if (indWord->second > 0) {
-            // The value is positive
-            counter++;
-        } else if (indWord->second < 0) {
-            // The value is negative
-            counter--;
+           // auto indWord = dictionary.find(words.at(i).toLower());
+            if (indWord != dictionary.end()) {
+                if (indWord->second > 0) {
+                    counter++;
+                } else if (indWord->second < 0) {
+                    counter --;
+                }
+            }
         }
-        // Note: if indWord->second is 0, do nothing
-        
-    } else {
-        // The word was not found in the dictionary
-        // Do nothing or handle this case as you see fit
+
+        if (counter > 0) {
+            guessedSentiments.push_back("4");
+        } else {
+            guessedSentiments.push_back("0");
+        }
+
+        std::cout << ids.at(idVectorCounter) << std::endl;
+        std::cout << guessedSentiments.at(idVectorCounter) << std::endl;
+        std::cout << counter << endl;
+        counter = 0;
+        idVectorCounter++;
     }
-    }
-        std::cout << std::endl;
 
-//std::cout<< "counter: " << counter << std::endl;
-// counter = counter/(words.size());
-// Now the variable 'counter' contains the sum of sentiment values for all words in the tweet
-if(counter > 0){
- // std::cout <<"4" << std::endl;
-  guessedSentiments.push_back("4");
-}
-else if(counter <= 0){
- // std::cout <<"0" << std::endl;
-   guessedSentiments.push_back("0");
-}
-std::cout << ids.at(idVectorCounter) << endl;
-std::cout << guessedSentiments.at(idVectorCounter) << endl;
-counter = 0;
-idVectorCounter++;
-//delete[] buffer;
-//std::cout << "The sentiment counter for this tweet is: " << counter << std::endl;
-
-     }
-//std:: vector sentiment
-delete[] buffer;
-
-
-
-
-// start reading in the actual values 
-
-std::ifstream file2("/users7/cse/rmukherji/assignment-2-don-t-be-sentimental-riamuk101/data/test_dataset_sentiment_10k.csv");
-   if (!file2.good())
-    {
+    // Open the second file
+    std::ifstream file2("/users7/cse/rmukherji/assignment-2-don-t-be-sentimental-riamuk101/data/FakeTestSentiment.csv");
+    if (!file2.good()) {
         throw std::invalid_argument("file could not be opened");
     }
 
+    char buffer2[1000];
+    double accuracyCounter = 0;
 
-   char* buffer2 = new char[1000];
-//    // char* buffer2 = new char[1000];
- double accuracyCounter = 0;
-//     int newCounter = 0; 
-    
+    // Ignore header line
+    file2.ignore(1000, '\n');
 
-   file2.ignore(1000,'\n');
-while (file2.getline(buffer2, 1000, ',')) {
- 
-  file2.getline(buffer2, 1000, ',');
-  DSString tempTrueSentiment(buffer2);
-  file2.getline(buffer2, 1000, ',');
-   DSString tempId(buffer2);
-//std::cout << tempTrueSentiment << tempId;
+    while (file2.getline(buffer2, 1000, ',')) {
+        file2.getline(buffer2, 1000, ',');
+        DSString tempTrueSentiment(buffer2);
+        std:: cout << tempTrueSentiment << endl;
+        file2.getline(buffer2, 1000, ',');
+        DSString tempId(buffer2);
+        std:: cout << tempId << endl;
 
-for(int i = 0; i < ids.size(); i ++){
-    if (ids.at(i) == tempId){
-        if(guessedSentiments.at(i)==tempTrueSentiment){
-              accuracyCounter++;
-        }
-        else{
-
-        }
+        for (int i = 0; i < ids.size(); i++) {
+//std:: cout << " reaches here ";
+            if (ids.at(i) == tempId) {
+              // std:: cout << " reaches here ";
+                if (guessedSentiments.at(i) == tempTrueSentiment) {
+                    accuracyCounter++;
+                }
+            }
+        }   
     }
-}
+    std :: cout << "first 3 id values" << ids.at(0) << " "<< ids.at(1) << " "<< ids.at(2) << " " << endl;
+std::cout <<" how many values in vector: " << ids.size() << endl;
+    std::cout << guessedSentiments.at(0) << " " << guessedSentiments.at(1) << " " << guessedSentiments.at(2);
+    std::cout << "accuracy level: " << accuracyCounter << endl;
 
- }
+    // Your existing code for outputting or using 'accuracyCounter'
 }
