@@ -6,6 +6,6 @@ int main(int argc, char** argv)
 {  
     SentimentAnalyzer sa;
     sa.train();
-
+    sa.test();
     return 0;
 }
