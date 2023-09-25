@@ -77,15 +77,21 @@ void SentimentAnalyzer::test(){
     
 
     //DSString curLine;
+    int idVectorCounter = 0;
     int sentimentValue;
     char* buffer = new char[1000];
+   // char* buffer2 = new char[1000];
     double counter = 0;
+   vector<DSString> ids ;
     file.ignore(1000,'\n');
     while (file.getline(buffer, 1000, ',')) {
-        //stores the sentiment value 0 or 4 into a DSString
+      //stores the sentiment value 0 or 4 into a DSString
      //DSString sentiment(buffer);
-     file.ignore(1000,',');
-     file.ignore(1000,',');
+     //file.ignore(1000,',');
+     char id[500];
+     file.getline(id,500,',');
+     DSString idValue(id);  
+     ids.push_back(idValue);
     // DSString a = DSString sentiment(buffer);
      file.ignore(1000,',');
      file.ignore(1000,',');
@@ -123,6 +129,7 @@ void SentimentAnalyzer::test(){
     }
         std::cout << std::endl;
 
+std::cout<< "counter: " << counter << std::endl;
 // counter = counter/(words.size());
 // Now the variable 'counter' contains the sum of sentiment values for all words in the tweet
 if(counter > 0){
@@ -131,10 +138,13 @@ if(counter > 0){
 else if(counter <= 0){
   std::cout <<"0" << std::endl;
 }
+std::cout << ids.at(idVectorCounter) << endl;
 counter = 0;
+idVectorCounter++;
+//delete[] buffer;
 //std::cout << "The sentiment counter for this tweet is: " << counter << std::endl;
 
      }
-
+//std:: vector sentiment
 
 }
