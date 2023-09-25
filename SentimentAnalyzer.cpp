@@ -97,7 +97,7 @@ void SentimentAnalyzer::test() {
         file.getline(buffer, 1000, '\n');  // Read until newline or 10000 characters
         DSString tweetDSString(buffer);
 
-               std::cout << "Analyzing tweet: " << tweetDSString << std::endl;  // Output the tweet being analyzed
+            //   std::cout << "Analyzing tweet: " << tweetDSString << std::endl;  // Output the tweet being analyzed
       
         vector<DSString> words = tweetDSString.tokenizeDSString();
 
@@ -122,9 +122,9 @@ void SentimentAnalyzer::test() {
             guessedSentiments.push_back("0");
         }
 
-        std::cout << ids.at(idVectorCounter) << std::endl;
-        std::cout << guessedSentiments.at(idVectorCounter) << std::endl;
-        std::cout << counter << endl;
+        // std::cout << ids.at(idVectorCounter) << std::endl;
+        // std::cout << guessedSentiments.at(idVectorCounter) << std::endl;
+        // std::cout << counter << endl;
         counter = 0;
         idVectorCounter++;
     }
@@ -136,33 +136,39 @@ void SentimentAnalyzer::test() {
     }
 
     char buffer2[1000];
-    double accuracyCounter = 0;
+double accuracyCounter = 0;
+double tweetsClassified = 0;
 
-    // Ignore header line
-    file2.ignore(1000, '\n');
+// Ignore header line
+file2.ignore(1000, '\n');
 
-    while (file2.getline(buffer2, 1000, ',')) {
-        file2.getline(buffer2, 1000, ',');
-        DSString tempTrueSentiment(buffer2);
-        std:: cout << tempTrueSentiment << endl;
-        file2.getline(buffer2, 1000, ',');
-        DSString tempId(buffer2);
-        std:: cout << tempId << endl;
+while (file2.getline(buffer2, 1000, ',')) {
+    DSString tempTrueSentiment(buffer2);  // Capture sentiment from the first column
+   // std::cout << "Sentiment: " << tempTrueSentiment << std::endl;
+
+    file2.getline(buffer2, 1000, '\n');  // Capture id from the second column until the end of line
+    DSString tempId(buffer2);
+   // std::cout << "ID: " << tempId << std::endl;
 
         for (int i = 0; i < ids.size(); i++) {
 //std:: cout << " reaches here ";
             if (ids.at(i) == tempId) {
+                tweetsClassified++;
               // std:: cout << " reaches here ";
                 if (guessedSentiments.at(i) == tempTrueSentiment) {
                     accuracyCounter++;
                 }
             }
         }   
-    }
-    std :: cout << "first 3 id values" << ids.at(0) << " "<< ids.at(1) << " "<< ids.at(2) << " " << endl;
-std::cout <<" how many values in vector: " << ids.size() << endl;
-    std::cout << guessedSentiments.at(0) << " " << guessedSentiments.at(1) << " " << guessedSentiments.at(2);
+   }
+//     std :: cout << "first 3 id values" << ids.at(0) << " "<< ids.at(1) << " "<< ids.at(2) << " " << endl;
+// std::cout <<" how many values in vector: " << ids.size() << endl;
+//     std::cout << guessedSentiments.at(0) << " " << guessedSentiments.at(1) << " " << guessedSentiments.at(2);
     std::cout << "accuracy level: " << accuracyCounter << endl;
-
+    std::cout << "totalTweetsAssesed: " << tweetsClassified << endl;
+double percentage = (accuracyCounter*100)/tweetsClassified;
     // Your existing code for outputting or using 'accuracyCounter'
+
+      std::cout << "percent correct: " << percentage <<"%" << endl;
+
 }
