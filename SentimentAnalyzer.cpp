@@ -39,6 +39,7 @@ void SentimentAnalyzer::train() {
      vector<DSString> words = tweetDSString.tokenizeDSString();
 
  for (DSString& curTweetWord : words) {
+   curTweetWord.toLower(); 
      if (sentiment == "4"){
         //cout << curTweetWord << endl;
         //dictionary[curTweetWord].sentimentValue++;
@@ -88,11 +89,15 @@ void SentimentAnalyzer::test(){
     // DSString a = DSString sentiment(buffer);
      file.ignore(1000,',');
      file.ignore(1000,',');
-     file.ignore(1000,',');
 
   file.getline(buffer, 10000, '\n');
      DSString tweetDSString(buffer);
      vector<DSString> words = tweetDSString.tokenizeDSString();
+
+
+
+
+
 
 // index through the vector of words from an individual tweet and find the values of those words in my map
      for (size_t i = 0; i < words.size();i++){
