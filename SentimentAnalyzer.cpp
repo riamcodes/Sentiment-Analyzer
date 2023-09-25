@@ -77,11 +77,14 @@ void SentimentAnalyzer::test(){
     
 
     //DSString curLine;
+   
     int idVectorCounter = 0;
     int sentimentValue;
     char* buffer = new char[1000];
    // char* buffer2 = new char[1000];
     double counter = 0;
+    
+    vector<DSString> guessedSentiments;
    vector<DSString> ids ;
     file.ignore(1000,'\n');
     while (file.getline(buffer, 1000, ',')) {
@@ -129,16 +132,19 @@ void SentimentAnalyzer::test(){
     }
         std::cout << std::endl;
 
-std::cout<< "counter: " << counter << std::endl;
+//std::cout<< "counter: " << counter << std::endl;
 // counter = counter/(words.size());
 // Now the variable 'counter' contains the sum of sentiment values for all words in the tweet
 if(counter > 0){
-  std::cout <<"4" << std::endl;
+ // std::cout <<"4" << std::endl;
+  guessedSentiments.push_back("4");
 }
 else if(counter <= 0){
-  std::cout <<"0" << std::endl;
+ // std::cout <<"0" << std::endl;
+   guessedSentiments.push_back("0");
 }
 std::cout << ids.at(idVectorCounter) << endl;
+std::cout << guessedSentiments.at(idVectorCounter) << endl;
 counter = 0;
 idVectorCounter++;
 //delete[] buffer;
@@ -146,5 +152,45 @@ idVectorCounter++;
 
      }
 //std:: vector sentiment
+delete[] buffer;
 
+
+
+
+// start reading in the actual values 
+
+std::ifstream file2("/users7/cse/rmukherji/assignment-2-don-t-be-sentimental-riamuk101/data/test_dataset_sentiment_10k.csv");
+   if (!file2.good())
+    {
+        throw std::invalid_argument("file could not be opened");
+    }
+
+
+   char* buffer2 = new char[1000];
+//    // char* buffer2 = new char[1000];
+ double accuracyCounter = 0;
+//     int newCounter = 0; 
+    
+
+   file2.ignore(1000,'\n');
+while (file2.getline(buffer2, 1000, ',')) {
+ 
+  file2.getline(buffer2, 1000, ',');
+  DSString tempTrueSentiment(buffer2);
+  file2.getline(buffer2, 1000, ',');
+   DSString tempId(buffer2);
+//std::cout << tempTrueSentiment << tempId;
+
+for(int i = 0; i < ids.size(); i ++){
+    if (ids.at(i) == tempId){
+        if(guessedSentiments.at(i)==tempTrueSentiment){
+              accuracyCounter++;
+        }
+        else{
+
+        }
+    }
+}
+
+ }
 }
