@@ -63,14 +63,36 @@ void SentimentAnalyzer::train() {
    delete[]  buffer;
 
    for (auto& curDictWord : dictionary) { 
-        cout << curDictWord.first << ' ' << curDictWord.second << endl;
+      // std:: cout << curDictWord.first << ' ' << curDictWord.second << endl; this prints out map
     }
 }
 
 void SentimentAnalyzer::test() {
 
+    std::ofstream outFile;
+    std::ofstream outFile2;
+    
+    // Step 3: Open the file
+    // If the file does not exist, it will be created.
+    // If the file exists, its contents will be overwritten.
+    outFile.open("output.txt");
+    outFile2.open("output2.txt");
+    
+    // Check if the file is open
+    if (!outFile) {
+        throw std::invalid_argument("file could not be opened");
+        std:: cout << "NO";
+    }
+
+    // Step 4: Write to the file
+    // outFile << "Writing this text to the file.\n";
+    // outFile << "C++ file handling is easy!\n";
+    
+    
+
+
     // Open the first file
-    std::ifstream file("/users7/cse/rmukherji/assignment-2-don-t-be-sentimental-riamuk101/data/FakeTestData.csv");
+    std::ifstream file("/users7/cse/rmukherji/assignment-2-don-t-be-sentimental-riamuk101/data/test_dataset_10k.csv");
     if (!file.good()) {
         throw std::invalid_argument("file could not be opened");
     }
@@ -130,7 +152,8 @@ void SentimentAnalyzer::test() {
     }
 
     // Open the second file
-    std::ifstream file2("/users7/cse/rmukherji/assignment-2-don-t-be-sentimental-riamuk101/data/FakeTestSentiment.csv");
+
+    std::ifstream file2("/users7/cse/rmukherji/assignment-2-don-t-be-sentimental-riamuk101/data/test_dataset_sentiment_10k.csv");
     if (!file2.good()) {
         throw std::invalid_argument("file could not be opened");
     }
@@ -157,9 +180,17 @@ while (file2.getline(buffer2, 1000, ',')) {
               // std:: cout << " reaches here ";
                 if (guessedSentiments.at(i) == tempTrueSentiment) {
                     accuracyCounter++;
+outFile << guessedSentiments.at(i) << ","  << ids.at(i) << '\n';
+                }
+                else{
+                    outFile << guessedSentiments.at(i) << ","  << ids.at(i) << '\n';
+                     outFile2 << guessedSentiments.at(i) << ", " << tempTrueSentiment << ", " << ids.at(i) << '\n';
                 }
             }
-        }   
+        } 
+        //delete[] buffer; 
+        //delete[] buffer2;
+         
    }
 //     std :: cout << "first 3 id values" << ids.at(0) << " "<< ids.at(1) << " "<< ids.at(2) << " " << endl;
 // std::cout <<" how many values in vector: " << ids.size() << endl;
@@ -170,5 +201,11 @@ double percentage = (accuracyCounter*100)/tweetsClassified;
     // Your existing code for outputting or using 'accuracyCounter'
 
       std::cout << "percent correct: " << percentage <<"%" << endl;
+       outFile2 << percentage << "\n";
+        outFile2 << "C++ file handling is easy!\n";
 
+
+
+    outFile.close();
+    outFile2.close();
 }
