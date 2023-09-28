@@ -7,6 +7,7 @@
 #include "DSString.h"
 #include "Word.h"
 #include <map>
+#include <iomanip>
 
 
 //using namespace std;
@@ -62,13 +63,16 @@ void SentimentAnalyzer::train() {
     cout << counter << endl;
    delete[]  buffer;
 
-   for (auto& curDictWord : dictionary) { 
+   //for (auto& curDictWord : dictionary) { 
       // std:: cout << curDictWord.first << ' ' << curDictWord.second << endl; this prints out map
-    }
+   // }
 }
 
 void SentimentAnalyzer::test() {
-
+vector<DSString> forOutput;
+//vector<DSString> forOutput1;
+vector<DSString> forOutput2;
+vector<DSString> forOutput3;
     std::ofstream outFile;
     std::ofstream outFile2;
     
@@ -184,7 +188,22 @@ outFile << guessedSentiments.at(i) << ","  << ids.at(i) << '\n';
                 }
                 else{
                     outFile << guessedSentiments.at(i) << ","  << ids.at(i) << '\n';
-                     outFile2 << guessedSentiments.at(i) << ", " << tempTrueSentiment << ", " << ids.at(i) << '\n';
+                     //outFile2 << guessedSentiments.at(i) << ", " << tempTrueSentiment << ", " << ids.at(i) << '\n';
+                    //  DSString comma = ", ";
+                    //  DSString trueSent= tempTrueSentiment;
+                    //  DSString ID = ids.at(i);
+                    // DSString ab = "hello";
+                    // DSString ba = " there ";
+                    DSString tempA = guessedSentiments.at(i);
+                    DSString tempB = tempTrueSentiment;
+                    DSString tempC = ids.at(i);
+                     //DSString tempA = ab + ba;
+                      //", " + tempTrueSentiment + ", " + ids.at(i));
+                     forOutput.push_back(tempA);
+                     forOutput2.push_back(tempB);
+                     forOutput3.push_back(tempC);
+                     //DSString a = guessedSentiments.at(i) + ", " + tempTrueSentiment + ", " + ids.at(i);
+                     //cout << a << "\n";
                 }
             }
         } 
@@ -201,8 +220,11 @@ double percentage = (accuracyCounter*100)/tweetsClassified;
     // Your existing code for outputting or using 'accuracyCounter'
 
       std::cout << "percent correct: " << percentage <<"%" << endl;
-       outFile2 << percentage << "\n";
-        outFile2 << "C++ file handling is easy!\n";
+     outFile2 << std::fixed << std::setprecision(3) <<percentage << "\n";
+      for (size_t i = 0; i < forOutput.size(); i++){
+       outFile2 << forOutput.at(i) << "," << forOutput2.at(i) << "," << forOutput3.at(i) << '\n';
+       }
+       // outFile2 << "C++ file handling is easy!\n";
 
 
 
