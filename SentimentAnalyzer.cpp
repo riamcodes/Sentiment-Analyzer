@@ -8,32 +8,14 @@
 #include "Word.h"
 #include <map>
 #include <iomanip>
- 
- 
+
 
 //using namespace std;
 
-void SentimentAnalyzer::train() {
-// ## Running your Program: Training and Testing
-// Your program should take 5 command line arguments in this order:
-// 1. training data set filename - the file with the training tweets
-// 2. testing data set filename - tweets that your program will classify
-// 3. testing data set sentiment filename - the file with the classifications for the testing tweet data
-// 4. classifier results file name - see Output Files section below
-// 5. classifier accuracy and errors file name - see Output Files section below
-
-
- std::cout << "Enter training data set filename: ";
-
- std::cin.getline(trainingName, 1000);  // Safely input into char array
-  
-
-    std::cout << "You entered: " << trainingName << "\n" << std::endl;
-
-
+void SentimentAnalyzer::train(char* argv) {
 
     //CHANGE THE WAY THE FILE IS READ IN BEFORE SUBMITTING
-    std::ifstream file(trainingName);
+    std::ifstream file(argv);
     if (!file.good())
     {
         throw std::invalid_argument("file could not be opened");
@@ -86,7 +68,7 @@ void SentimentAnalyzer::train() {
    // }
 }
 
-void SentimentAnalyzer::test() {
+void SentimentAnalyzer::test(char* argv, char* argv2, char* argv3, char* argv4) {
 vector<DSString> forOutput;
 //vector<DSString> forOutput1;
 vector<DSString> forOutput2;
@@ -97,8 +79,8 @@ vector<DSString> forOutput3;
     // Step 3: Open the file
     // If the file does not exist, it will be created.
     // If the file exists, its contents will be overwritten.
-    outFile.open("output.txt");
-    outFile2.open("output2.txt");
+    outFile.open(argv3);
+    outFile2.open(argv4);
     
     // Check if the file is open
     if (!outFile) {
@@ -112,19 +94,9 @@ vector<DSString> forOutput3;
     
     
 
-// 2. testing data set filename - tweets that your program will classify
-// 3. testing data set sentiment filename - the file with the classifications for the testing tweet data
+
     // Open the first file
-
-
-    
-        std::cout << "Enter test data set filename: ";
-
-     std::cin.getline(testingName, 1000);  // Safely input into char array
-  
-
-    //std::cout << "You entered: " << trainingName << "\n" << std::endl; 
-    std::ifstream file(testingName);
+    std::ifstream file(argv);
     if (!file.good()) {
         throw std::invalid_argument("file could not be opened");
     }
@@ -179,22 +151,13 @@ vector<DSString> forOutput3;
         // std::cout << ids.at(idVectorCounter) << std::endl;
         // std::cout << guessedSentiments.at(idVectorCounter) << std::endl;
         // std::cout << counter << endl;
-
         counter = 0;
         idVectorCounter++;
     }
 
     // Open the second file
-  std::cout << "Enter sentiment set data set filename: ";
 
-     std::cin.getline(sentimentSetName, 1000);  // Safely input into char array
-  
-
-    //std::cout << "You entered: " << trainingName << "\n" << std::endl; 
-   
-    std::ifstream file2(sentimentSetName);
-    
-   // std::ifstream file2("/users7/cse/rmukherji/assignment-2-don-t-be-sentimental-riamuk101/data/test_dataset_sentiment_10k.csv");
+    std::ifstream file2(argv2);
     if (!file2.good()) {
         throw std::invalid_argument("file could not be opened");
     }
