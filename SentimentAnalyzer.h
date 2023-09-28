@@ -14,6 +14,9 @@ public:
     //char * later for file paths
 private:
     map<DSString, int> dictionary;
-    
+    DSString trainer;
+  char trainingName[1000];
+   char testingName[1000];
+    char sentimentSetName[1000];
 };
 #endif
