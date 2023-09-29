@@ -4,7 +4,7 @@
 
 int main(int argc, char** argv)
 {   
-   std::cout<<argv[1];
+   //std::cout<<argv[1];
         // std::cout << "Usage: ";
         // std::cin >> argv[0];
         // std::cout << " <parameter>" << std::endl;
