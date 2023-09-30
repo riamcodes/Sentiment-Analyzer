@@ -189,7 +189,7 @@ vector<DSString> forOutput3;
     percentage = (accuracyCounter*100)/tweetsClassified;
     
     //cout percent correct 
-    std::cout << "percent correct: " << percentage <<"%" << endl;
+    std::cout << std::fixed << std::setprecision(3) << "percent correct: " << percentage <<"%" << endl;
     outFile2 << std::fixed << std::setprecision(3) <<percentage << "\n";
       //put percent into output files followed by the three parallel vectors created earlier for our information
       for (size_t i = 0; i < forOutput.size(); i++){
