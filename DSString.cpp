@@ -12,12 +12,11 @@
 DSString::DSString()
 {
     // create a character array and have the pointer point to it
-
-    // 1 new empty string (/0 length will be 1
+    // new empty string (/0 length will be 1
     data = new char[1];
-    // 2 make data point to the new string
+    //make data point to the new string
     data[0] = '\0';
-    // 3 adjust the length variable to 0
+    //adjust the length variable to 0
     len = 0;
 }
 
@@ -25,9 +24,6 @@ DSString::DSString()
 // you can also provide  DSString(const string &); for std::string
 DSString::DSString(const char *str)
 {
-    // 1use library or just calculate length using loop
-    // 2 copy cstring over charter by character
-
     // Step 1: Calculate the length of the input C-string
     len = 0;
     while (str[len] != '\0')
@@ -35,7 +31,7 @@ DSString::DSString(const char *str)
         len++;
     }
 
-    // Step 2: Allocate memory for the internal data and copy the C-string
+    // Step 2: Allocate memory and copy the C-string
     data = new char[len + 1]; // +1 for the null terminator
     for (size_t i = 0; i < len; i++)
     {
@@ -45,7 +41,6 @@ DSString::DSString(const char *str)
 }
 
 // Rule of three is needed if dynamic memory allocation is used
-
 // copy constructor
 DSString::DSString(const DSString &copy)
 {
@@ -69,9 +64,8 @@ DSString &DSString::operator=(const DSString &newStr)
     for (size_t i = 0; i < len; i++)
     {
         *(data + i) = *(newStr.data + i);
-        //???? .data what does this mean
     }
-    data[len] = '\0';  // Add this line
+    data[len] = '\0'; 
 
     return *this;
 }
@@ -101,27 +95,14 @@ char &DSString::operator[](size_t index)
 // overloaded operator
 DSString DSString::operator+(const DSString &adding) const
 {
-    // WORK ON THIS ONE NEXT
-    /*fullSize = len + adding.len;
-   char* addedChar = new char[fullSize];
-   for (size_t i = 0; i < len-1; i++){
-     addedChar[i] = data[i];
-   }
-   for (size_t i = (len - 1); i < ((len-1) + adding.len);i++){
-       int x = 0;
-       addedChar[i] = adding.data[x];
-       x++;
-   }
-   return addedChar;
-   */
     DSString fullSize;
     fullSize.len = len + adding.len + 1;
-    //fullSize.data = new char[fullSize.len + 1]; // +1 for the null terminator
     int x = 0;
     for (size_t i = 0; i < len; i++)
     {
         fullSize.data[i] = data[i];
     }
+    //adds the sizes together to create enough space for the full concatenated DSString
     for (size_t i = len; i < ((len - 0) + adding.len); i++)
     {
         fullSize[i] = adding.data[x];
@@ -131,10 +112,6 @@ DSString DSString::operator+(const DSString &adding) const
     return fullSize;
 }
 
-// Overloaded operator+ which appends the string in the argument to this string
-
-// DSString operator+(const DSString &) const;
-
 /**
  * Standard relational operators to compare and order your strings.
  * Feel free to add additional.
@@ -142,10 +119,12 @@ DSString DSString::operator+(const DSString &adding) const
 
 bool DSString::operator==(const DSString &checkEqual) const
 {
+    //check if the lengths are the same if not they're not the equal
     if(checkEqual.len != this->len) {
         return false;
     }
 
+    //default bool true
     bool a = true;
     char *newCh = checkEqual.c_str();
 
@@ -159,33 +138,13 @@ bool DSString::operator==(const DSString &checkEqual) const
     return a;
 }
 
-// bool DSString::operator<(const DSString &checkLess) const
-// {
-//     //std::cout << "Comparing " << data << " with " << checkLess << std::endl;
-//     bool a = false;
-//     char *newCh = checkLess.c_str();
-//     // Compare each character in the strings
-//     for (size_t i = 0; i < len + 1; i++)
-//     {
-//         if ((data[i]) < checkLess.data[i])
-//             a = true;
-//         break;
-//       // continue;
-    
-//     }
-
-//     //std::cout << "RESULT WAS: " << a << std::endl;
-//     return a;
-// }
-
-// CODE GENERATED ?????
-
-
+//less than operator
 bool DSString::operator<(const DSString &checkLess) const
 {
     // Make sure both strings are of the same length or find the minimum length
     size_t minLen = std::min(len, checkLess.len); 
 
+   //char by char determine which least
     for (size_t i = 0; i < minLen; i++)
     {
         if (data[i] < checkLess.data[i])
@@ -195,7 +154,6 @@ bool DSString::operator<(const DSString &checkLess) const
     }
 
     // If you reach here, the strings are equal up to minLen.
-    // The shorter string is considered "smaller"
     return len < checkLess.len;
 }
 
@@ -221,15 +179,6 @@ DSString DSString::substring(size_t start, size_t numChars) const
     }
     substr.data[numChars] = '\0';
     return substr;
-
-    /* char* newStr = new char[numChars+1];//new character array
-     for (int i = start; i < start+numChars; i++){
-         newStr[i-start] =  data[i];
-     }
-     DSString ret(newStr);
-     return ret;
-*/
-    // noun classes verbs = functions  word is a ds string 5 10 different classes tokeniser needs to cut sttings int o pieces
 }
 
 /**
@@ -239,6 +188,7 @@ DSString DSString::substring(size_t start, size_t numChars) const
  */
 DSString DSString::toLower() const
 {
+    //91 and 64 are the range in which Caps letters are so turn them lower 
     int lowAsciiVal = 0;
     for (size_t i = 0; i < len; i++)
     {
@@ -269,45 +219,15 @@ char *DSString::c_str() const
     return data;
 }
 
+//ostream returns
 std::ostream &operator<<(std::ostream &output, const DSString &str)
 {
-    // char *c = str.c_str();
-    // // std::cout<<c[0];
-    // for (size_t i = 0; i < str.length(); i++)
-    // {
-    //     output.put(c[i]);
-    // }
-    //    output <<  str.data;
     return output << str.data;
 }
 
-// // Implementation of the tokenize function
-// std::vector<DSString> DSString::tokenizeDSString()
-// {
-//     std::vector<DSString> words;
-//     size_t counter = 0;
-
-//     for (size_t i = 0; i < length(); ++i)
-//     {
-//         char currentChar = data[i];
-//         bool isDelimiter = (currentChar == ' ' || currentChar == ',' || currentChar == ';' || currentChar == '.' || currentChar == ':' || currentChar == '!' || currentChar == '?');
-        
-//         if (isDelimiter || (i == length() - 1)) {
-//             if (i != counter || (i == length() - 1 && !isDelimiter)) {
-//                 // Edge case: if the last character is not a delimiter, include it in the last token
-//                 size_t end = isDelimiter ? i : i + 1;
-//                 DSString currentWord = substring(counter, end - counter);
-//                 words.push_back(currentWord);
-//             }
-//             counter = i + 1;
-//         }
-//     }
-//     return words;
-// }
-
+//tokenizing function
 std::vector<DSString> DSString::tokenizeDSString()
 {
-    // char* currentChar = phrase.c_str();
     std::vector<DSString> words;
     size_t counter = 0;
 
@@ -315,18 +235,12 @@ std::vector<DSString> DSString::tokenizeDSString()
 
     for (size_t i = 0; i < length() + 1; ++i)
     {
+        //splits words at these points
         char currentChar = data[i];
-        /*
-        if ((currentChar != ' ') && (isalpha(currentChar)==false)){
-        DSString special = "" + currentChar;
-            words.push_back(special);
-            i++;
-        }
-        */
         if (currentChar == ' ' || currentChar == ',' || currentChar == ';' || currentChar == '.' || currentChar == ':' || currentChar == '!' || currentChar == '?' || currentChar == '\0'
         && i!= counter)
         {
-            // if(isalpha(data[i])){
+           
             currentWord = substring(counter, i - counter);
             words.push_back(currentWord);
             counter = i + 1;
@@ -339,6 +253,7 @@ std::vector<DSString> DSString::tokenizeDSString()
     return words;
 }
 
+//used to have my own getline function keeping it here incase used in the future
 /*bool DSString::getline(std::istream &in)
 {
     // go until EOF or \n
